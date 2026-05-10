@@ -15,7 +15,8 @@ struct Node {
 struct compareNode {
 
     bool operator ()(Node* a, Node* b) {//重载了（）让这个结构体可以被调用
-        return a->weight > b->weight;
+         cout << "正在比较: " << a->weight << " 和 " << b->weight << endl; 
+return a->weight > b->weight;
     }
 
 
