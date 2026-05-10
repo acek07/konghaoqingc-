@@ -1,0 +1,75 @@
+#include<iostream>
+#include<queue>
+#include<vector>
+using namespace std;
+
+struct Node {
+    int weight;
+    Node* left;
+    Node* right;
+    Node(int w) : weight(w), left(nullptr), right(nullptr) {}// Node(int w)构造函数  初始化列表，11之后nullptr专门代表空指针
+    bool operator>(const Node& other) const {// operator重新载入“>”这个符号的作用，让他可以比较指针的权值，静态变量const 防止other指针被修改
+        return this->weight > other.weight;
+    }
+};
+struct compareNode {
+
+    bool operator ()(Node* a, Node* b) {//重载了（）让这个结构体可以被调用
+        return a->weight > b->weight;
+    }
+
+
+
+};
+int calculateWPL(Node* root, int dep) {
+    if (root == nullptr)
+        return 0;
+    if (root->left== nullptr && root->right == nullptr)
+        return root->weight * dep;
+
+    else  return calculateWPL(root->left, dep + 1) + calculateWPL(root->right, dep + 1);
+
+}
+
+
+
+
+void DeleteTree(Node* node) {
+    if (!node) return;
+    DeleteTree(node->left);
+    DeleteTree(node->right);
+    delete node;
+}
+    int main() {
+        int n;
+        cout << "请输入叶子个数" << endl;
+        cin >> n;
+        cout << "请输入" << n << "个权数";
+        priority_queue<Node*,vector<Node*>, compareNode> pq;//传入数据类型，容器，规则
+        for (int i = 0; i < n; i++) {
+            int w;
+            cin >> w;
+            pq.push(new Node(w));//将新数据压入队中
+
+
+
+
+        }
+        while (pq.size()>1) {
+            Node* l = pq.top();
+            pq.pop();
+            Node* r = pq.top();
+            pq.pop();
+            Node* parent = new Node(l->weight + r->weight);
+            parent->left = l;
+            parent->right = r;
+            pq.push(parent);
+
+
+        }
+        Node* root = pq.top();
+        cout << "哈夫曼树构建完毕";
+        cout << "哈夫曼树的wpl "<<" " << calculateWPL(root, 0);
+        DeleteTree(root);
+        return 0;
+    }
