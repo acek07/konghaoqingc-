@@ -85,4 +85,5 @@ int main() {
     cout << "【路径压缩后】4号的直接父亲变成了: " << b.father[4] << " (直接挂在根节点下了！)" << endl;
 
     system("pause");
+    return 0;
 }
